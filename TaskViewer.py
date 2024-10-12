@@ -19,14 +19,24 @@ def run():
     clock = pygame.time.Clock()
     
     categories: list[Category] = [Category("All", (220, 120, 120))]
-    with open("src/data/categories.json", "r") as file:
-        for category in json.load(file):
-            categories.append(Category(category[0], (int(category[1]), int(category[2]), int(category[3]))))
+    try:
+        with open("src/data/categories.json", "x") as file:
+            file.write("[]")
+    except FileExistsError:
+        with open("src/data/categories.json", "r") as file:
+            for category in json.load(file):
+                categories.append(Category(category[0], (int(category[1]), int(category[2]), int(category[3]))))
     
     tasks: list[Task] = []
-    with open("src/data/tasks.json", "r") as file:
-        for task in json.load(file):
-            tasks.append(Task(task))
+    try:
+        with open("src/data/tasks.json", "x") as file:
+            file.write("[]")
+    except FileExistsError:
+        with open("src/data/tasks.json", "r") as file:
+            for task in json.load(file):
+                tasks.append(Task(task))
+    
+    
     
     task_state = Task_State(screen, categories, tasks)
     add_state = Add_State(screen, categories, tasks)
